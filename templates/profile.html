@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — Spendly{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+
+    <!-- Stats row -->
+    <div class="profile-stats">
+        <div class="profile-stat-card">
+            <p class="profile-stat-label">Total Spent</p>
+            <p class="profile-stat-value">{{ stats.total_spent }}</p>
+        </div>
+        <div class="profile-stat-card">
+            <p class="profile-stat-label">Transactions</p>
+            <p class="profile-stat-value">{{ stats.transaction_count }}</p>
+        </div>
+        <div class="profile-stat-card">
+            <p class="profile-stat-label">Top Category</p>
+            <p class="profile-stat-value">{{ stats.top_category }}</p>
+        </div>
+    </div>
+
+    <!-- Main 2-column area -->
+    <div class="profile-main">
+
+        <!-- Recent Transactions (left) -->
+        <div class="profile-card">
+            <h2 class="profile-card-title">Recent Transactions</h2>
+            {% if transactions %}
+            <table class="profile-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th class="col-amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tx in transactions %}
+                    <tr>
+                        <td>{{ tx.date }}</td>
+                        <td>{{ tx.description }}</td>
+                        <td>
+                            <span class="badge badge-{{ tx.category | lower }}">{{ tx.category }}</span>
+                        </td>
+                        <td class="col-amount">{{ tx.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="profile-empty">No transactions yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- By Category (right) -->
+        <div class="profile-card">
+            <h2 class="profile-card-title">By Category</h2>
+            {% if categories %}
+            <div class="profile-breakdown">
+                {% for cat in categories %}
+                <div class="cat-row">
+                    <div class="cat-header">
+                        <span class="cat-name">{{ cat.name }}</span>
+                        <span class="cat-amount">{{ cat.amount }}</span>
+                    </div>
+                    <div class="cat-track">
+                        <div class="cat-fill cat-fill-{{ cat.name | lower }}"
+                             style="width: {{ cat.pct }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="profile-empty">No spending data yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
