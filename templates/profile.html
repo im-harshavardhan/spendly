@@ -5,6 +5,15 @@
 {% block content %}
 <div class="profile-page">
 
+    <!-- User info -->
+    <div class="profile-header">
+        <div class="profile-avatar">{{ user.initials }}</div>
+        <div class="profile-identity">
+            <h1 class="profile-name">{{ user.name }}</h1>
+            <p class="profile-meta">{{ user.email }} &mdash; Member since {{ user.member_since }}</p>
+        </div>
+    </div>
+
     <!-- Stats row -->
     <div class="profile-stats">
         <div class="profile-stat-card">
